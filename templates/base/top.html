@@ -1,0 +1,77 @@
+<div class="topheader">
+    <div class="left">
+{#        <h1 class="logo">Ama.<span>Admin</span></h1>#}
+        <h1 class="logo">熊猫<span>之家</span></h1>
+{#        <h1 class="logo"><img src="https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2850383841,3934216362&fm=26&gp=0.jpg" alt="PANDA"><span>熊猫之家</span></h1>#}
+        <span class="slogan">管理系统</span>
+
+        <div class="search">
+            <form action="" method="post">
+                <input type="text" name="keyword" id="keyword" value="请输入" />
+                <button class="submitbutton"></button>
+            </form>
+        </div><!--search-->
+
+        <br clear="all" />
+
+    </div><!--left-->
+
+    <div class="right">
+        <!--<div class="notification">
+            <a class="count" href="ajax/notifications.html"><span>9</span></a>
+        </div>-->
+        <div class="userinfo">
+            <img id="head_small" src="{% if request.session.login_user.head %} /m/{{ request.session.login_user.head }}{% else %}/s/images/thumbs/avatar.png{% endif %}" alt="" />
+            <span>{{ request.session.login_user.nick_name }}</span>
+        </div><!--userinfo-->
+
+        <div class="userinfodrop">
+            <div class="avatar">
+            	<img id="head_small" src="{% if request.session.login_user.head %}/m/{{ request.session.login_user.head }}{% else %}/s/images/thumbs/avatar.png{% endif %}" alt="" />
+                <div class="changetheme">
+                    切换主题: <br />
+                    <a class="default"></a>
+                    <a class="blueline"></a>
+                    <a class="greenline"></a>
+                    <a class="contrast"></a>
+                    <a class="custombg"></a>
+                </div>
+            </div><!--avatar-->
+            <div class="userdata">
+                <h4>{{ request.session.login_user.nick_name }}</h4>
+                <span class="email">{{ request.session.login_user.email }}</span>
+                <ul>
+                    <li><a href="editprofile.html">编辑资料</a></li>
+                    <li><a href="accountsettings.html">账号设置</a></li>
+                    <li><a href="help.html">帮助</a></li>
+                    <li><a href="{% url 'main:logout' %}">退出</a></li>
+                </ul>
+            </div><!--userdata-->
+        </div><!--userinfodrop-->
+    </div><!--right-->
+</div><!--topheader-->
+
+
+<div class="header">
+    <ul class="headermenu">
+        <li class="current"><a href="{% url 'main:dash' %}"><span class="icon icon-flatscreen"></span>首页</a></li>
+        <li><a href="manageblog.html"><span class="icon icon-pencil"></span>投诉处理</a></li>
+{#        <li><a href="{% url 'main:fed' %}"><span class="icon icon-message"></span>公告管理</a></li>#}
+        <li><a href="reports.html"><span class="icon icon-chart"></span>评论管理</a></li>
+
+    </ul>
+
+   <div class="headerwidget">
+        <div class="earnings">
+            <div class="one_half">
+                <h4>Today's Earnings</h4>
+                <h2>$640.01</h2>
+            </div><!--one_half-->
+            <div class="one_half last alignright">
+                <h4>Current Rate</h4>
+                <h2>53%</h2>
+            </div><!--one_half last-->
+        </div><!--earnings-->
+    </div><!--headerwidget-->
+
+</div><!--header-->

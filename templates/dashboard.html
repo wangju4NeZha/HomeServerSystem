@@ -1,0 +1,38 @@
+{# 主页显示 #}
+
+{% extends 'base/base.html' %}
+
+{% block title %}【熊猫之家】后台管理系统{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="/s/js/custom/dashboard.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="centercontent">
+
+        <div class="pageheader">
+            <h1 class="pagetitle">熊猫之家-温馨舒适</h1>
+            <span class="pagedesc">拥有一个更舒适的家！</span>
+
+            <ul class="hornav">
+                {% if request.session.login_user.role_code == 'admin' %}
+                    <li class="current"><a href="#">公告审核</a></li>
+                    <li><a href="#">空间配置</a></li>
+                {% else %}
+                    <li class="current"><a href="#">最近使用目录</a></li>
+                {% endif %}
+
+            </ul>
+        </div><!--pageheader-->
+
+        <div id="contentwrapper" class="contentwrapper">
+
+
+        </div><!--contentwrapper-->
+
+        <br clear="all"/>
+
+    </div><!-- centercontent -->
+{% endblock %}
+

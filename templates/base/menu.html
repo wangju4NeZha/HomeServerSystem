@@ -1,0 +1,22 @@
+<div class="vernav2 iconmenu">
+    <ul>
+        {% if request.session.login_user.role_code == 'admin' %}
+            {#  超级管理员菜单  #}
+            <li><a href="#role_menu" class="editor">系统管理</a>
+                <span class="arrow"></span>
+                <ul id="role_menu">
+                    <li><a href="{% url 'main:role' %}">角色管理</a></li>
+                    <li><a href="{% url 'main:list_sysuser' %}">普通管理员管理</a></li>
+                </ul>
+            </li>
+            <li><a href="#" class="editor">公告管理</a></li>
+        {% endif %}
+    </ul>
+    <a class="togglemenu"></a>
+    <br/><br/>
+</div><!--leftmenu-->
+
+
+
+
+

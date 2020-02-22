@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="snail" uuid="0949f63c-f5ef-45f2-8444-7c34bb9405d8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://114.116.245.220:3306/homems</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="homems@localhost" uuid="2b0102e5-68b5-4189-a5b4-3bfa8c28e217">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/homems</jdbc-url>
+    </data-source>
+  </component>
+</project>
