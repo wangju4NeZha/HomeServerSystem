@@ -247,6 +247,7 @@ class TSysUser(models.Model):
     password = models.CharField(max_length=32, blank=True, null=True)
     nick_name = models.CharField(max_length=20, blank=True, null=True)
     head = models.ImageField(null=True, blank=True)
+    # head = models.CharField(max_length=300, null=True, blank=True)
     email = models.CharField(max_length=30, blank=True, null=True)
 
     @property

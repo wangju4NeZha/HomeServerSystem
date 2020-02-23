@@ -1,5 +1,6 @@
 import json
 
+from django.core.serializers import serialize
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -32,14 +33,17 @@ def login(request):
             if login_user:
                 # 超级管理员
                 role_ = login_user.role
+
                 login_info = {
                     'user_id': login_user.user_id,
-                    'head': login_user.head,
+                    'head': str(login_user.head),
                     'email': login_user.email,
                     'nick_name': login_user.nick_name,
                     'role_name': role_.role_name,
                     'role_code': role_.role_code,
                 }
+                print("+++++++++++++++", login_info['head'])
+
         if not error:
             request.session['login_user'] = login_info
             return redirect(reverse('main:dash'))
@@ -132,7 +136,7 @@ class EditSysUserView(View):
         if user_id:
             form = SysUserForm(request.POST, request.FILES, instance=TSysUser.objects.get(user_id=user_id))
         else:
-            form = SysUserForm(request.POST)
+            form = SysUserForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect(reverse('main:list_sysuser'))

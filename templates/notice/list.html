@@ -6,61 +6,79 @@
 
 
 {% block content %}
-
-    <div class="centercontent tables">
-
-        <div class="pageheader notab">
-            <h1 class="pagetitle">当前位置：公告管理</h1>
-            <span class="pagedesc">编辑和发布公告信息</span>
-
-        </div><!--pageheader-->
-
-        <div style="margin: 10px">
-            <div class="contenttitle2">
-                <h3>公告信息</h3>
-            </div><!--contenttitle-->
-            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
-                <thead>
-                <tr>
-                    <th class="head0">公告ID</th>
-                    <th class="head1">标题</th>
-                    <th class="head0">简述</th>
-                    <th class="head1">发布时间</th>
-                    <th class="head1">外部连接</th>
-                    <th class="head1">审核状态</th>
-                    <th class="head0" style="width: 200px">操作</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                {% for notice in notices %}
-                    <tr class="gradeA">
-                        <td>{{ notice.public_notice_id }}</td>
-                        <td>{{ notice.content }}</td>
-                        <td>{{ notice.content }}</td>
-                        <td >{{ notice.content }}</td>
-                        <td><a style="cursor: pointer">查看连接</a></td>
-                        <td >提示</td>
-                        <td class="center">
-
-
-                        </td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-            <div style="padding: 5px">
-                <button class="stdbtn btn_blue" onclick="window.open('/edit_message/', target='_self')">新增</button>
-            </div>
-        </div>
-    </div>
+    <table cellpadding="0" cellspacing="0" border="0" id="table2" class="stdtable stdtablecb">
+        <colgroup>
+            <col class="con1"/>
+            <col class="con0"/>
+            <col class="con1"/>
+            <col class="con0"/>
+            <col class="con1"/>
+            <col class="con0"/>
+        </colgroup>
+        <thead>
+        <tr>
+            <th class="head1">公告ID</th>
+            <th class="head0">标题</th>
+            <th class="head1">简述(s)</th>
+            <th class="head0">发布时间</th>
+            <th class="head1">审核状态</th>
+            <th class="head0">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="center"><input type="checkbox"/></td>
+            <td>Trident</td>
+            <td>Internet Explorer 4.0</td>
+            <td>Win 95+</td>
+            <td class="center">4</td>
+            <td class="center">X</td>
+            <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="checkbox"/></td>
+            <td>Trident</td>
+            <td>Internet Explorer 5.0</td>
+            <td>Win 95+</td>
+            <td class="center">5</td>
+            <td class="center">C</td>
+            <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="checkbox"/></td>
+            <td>Trident</td>
+            <td>Internet Explorer 5.5</td>
+            <td>Win 95+</td>
+            <td class="center">5.5</td>
+            <td class="center">A</td>
+            <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="checkbox"/></td>
+            <td>Trident</td>
+            <td>Internet Explorer 6</td>
+            <td>Win 98+</td>
+            <td class="center">6</td>
+            <td class="center">A</td>
+            <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="checkbox"/></td>
+            <td>Trident</td>
+            <td>Internet Explorer 7</td>
+            <td>Win XP SP2+</td>
+            <td class="center">7</td>
+            <td class="center">A</td>
+            <td class="center"><a href="" class="edit">Edit</a> &nbsp; <a href="" class="delete">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
 
 {% endblock %}
 
 
 {% block js %}
-        <script type="text/javascript" src="/s/js/custom/tables.js"></script>
+    <script type="text/javascript" src="/s/js/custom/tables.js"></script>
 
 {% endblock %}
 
