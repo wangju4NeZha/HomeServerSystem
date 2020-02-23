@@ -21,7 +21,7 @@
             <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
                 <thead>
                 <tr>
-                    <th class="head0">用户ID</th>
+                    <th class="head0">头像</th>
                     <th class="head1">账号</th>
                     <th class="head0">昵称</th>
                     <th class="head1">角色</th>
@@ -32,7 +32,7 @@
                 <tbody>
                 {% for obj in users %}
                     <tr class="gradeA">
-                        <td>{{ obj.user_id }}</td>
+                        <td><img id="head_small" src="{% if obj.head %} /m/{{ obj.head }}{% else %}/s/images/thumbs/avatar.png{% endif %}" alt="" />
                         <td>{{ obj.username }}</td>
                         <td>{{ obj.nick_name }}</td>
                         <td>{{ obj.role.role_name }}</td>
@@ -55,18 +55,18 @@
 
 {% block js %}
     <script>
-        function delete_(id_, name_) {
+        function delete_(user_id, name_) {
             jConfirm('是否确认删除' + name_ + "?", '删除确认', function (event) {
                 if (event) {
-                    url = '?action=del&id_=' + id_;
+                    url = '?action=del&user_id=' + user_id;
                     console.log(url);
                     window.open(url, target = '_self')
                 }
             })
         }
 
-        function edit_(id_){
-            open('/edit_sysuser/?id_='+id_, targt='_self')
+        function edit_(user_id){
+            open('/edit_sysuser/?user_id='+user_id, targt='_self')
         }
 
     </script>

@@ -14,7 +14,7 @@ class RoleForm(forms.ModelForm):
 
     class Meta:
         model = TSysRole
-        fields = '__all__'
+        fields = ['role_name', 'role_code']  # '__all__'
         error_messages = {
             'role_name': {
                 'required': '角色名不能为空'
@@ -28,15 +28,18 @@ class SysUserForm(forms.ModelForm):
 
     class Meta:
         model = TSysUser
-        fields = '__all__'
+        fields = ['username', 'password', 'role_id', 'nick_name', 'head']
         error_messages = {
             'username': {
                 'required': '账号不能为空'
             },
+            'nick_name': {
+                'required': '昵称不能为空'
+            },
             'password': {
                 'required': '口令不能为空'
             },
-            'role': {
+            'role_id': {
                 'required': '系统用户角色不能为空'
             }
         }

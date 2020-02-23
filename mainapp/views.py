@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views import View
 
 from common import md5_
-from .models import TSysRole, TSysUser
+from .models import TSysRole, TSysUser, TPublicNotice
 
 
 # Create your views here.
@@ -16,7 +16,6 @@ def login(request):
     # print('--->', request.method)
     if request.method == 'POST':
         # print(request.POST)
-        login_info = dict()
         error = None
 
         username = request.POST['username'].strip()
@@ -28,38 +27,22 @@ def login(request):
         # 验证用户名和口令是否为空
         if not all((username, password)):
             error = f'用户名或口令不能为空！'
-
-        if TSysUser.objects.filter(username=username, password=password_, role_id=1):
-            # 超级管理员
-            login_user = TSysUser.objects.filter(username=username, password=password_, role_id=1).first()
-            role_ = TSysRole.objects.get(role_id=login_user.role_id)
-            login_info = {
-                'user_id': login_user.user_id,
-                'head': login_user.head,
-                'email': login_user.email,
-                'nick_name': login_user.nick_name,
-                'role_name': role_.role_name,
-                'role_code': role_.role_code,
-            }
-
-        elif TSysUser.objects.filter(username=username, password=password_, role_id=2):
-            login_user = TSysUser.objects.filter(username=username, password=password_, role_id=2).first()
-            role_ = TSysRole.objects.get(role_id=login_user.role_id)
-            login_info = {
-                'user_id': login_user.user_id,
-                'head': login_user.head,
-                'email': login_user.email,
-                'nick_name': login_user.nick_name,
-                'role_name': role_.role_name,
-                'role_code': role_.role_code,
-            }
         else:
-            error = f'{username} 用户名或口令错误！'
-
+            login_user = TSysUser.objects.filter(username=username, password=password_).first()
+            if login_user:
+                # 超级管理员
+                role_ = login_user.role
+                login_info = {
+                    'user_id': login_user.user_id,
+                    'head': login_user.head,
+                    'email': login_user.email,
+                    'nick_name': login_user.nick_name,
+                    'role_name': role_.role_name,
+                    'role_code': role_.role_code,
+                }
         if not error:
             request.session['login_user'] = login_info
             return redirect(reverse('main:dash'))
-
     return render(request, 'login.html', locals())
 
 
@@ -80,7 +63,12 @@ def role(request):
     """
     action = request.GET.get('action', '')
     if action == 'del':
-        TSysRole.objects.get(pk=request.GET.get('role_id')).delete()
+        role_id = request.GET.get('role_id')
+        TSysRole.objects.get(role_id=role_id).delete()
+        user_list = TSysUser.objects.filter(role_id=role_id)
+        for obj in user_list:
+            obj.delete()
+
     roles = TSysRole.objects.all()
     return render(request, 'role/list.html', locals())
 
@@ -93,10 +81,10 @@ def list_sys_user(request):
     """
     action = request.GET.get('action', '')
     if action == 'del':
-        TSysUser.objects.get(pk=request.GET.get('id_')).delete()
+        TSysUser.objects.get(user_id=request.GET.get('user_id')).delete()
 
     # 查询系统时，除去超级管理员的用户
-    users = TSysUser.objects.filter(~Q(pk=request.session['login_user']['user_id'])).all()
+    users = TSysUser.objects.filter(~Q(user_id=request.session['login_user']['user_id'])).all()
     return render(request, 'sys_user/list.html', locals())
 
 
@@ -130,7 +118,7 @@ class EditSysUserView(View):
     编辑管理员信息和增加管理员
     """
     def get(self, request):
-        user_id = request.GET.get('id_', '')
+        user_id = request.GET.get('user_id', '')
         if user_id:
             obj = TSysUser.objects.get(user_id=user_id)
 
@@ -139,16 +127,15 @@ class EditSysUserView(View):
 
     def post(self, request):
         from .forms import SysUserForm
-
+        # print(request.POST,"+++++++++++++++++++++")
         user_id = request.POST.get('user_id', '')
         if user_id:
-            form = SysUserForm(request.POST, instance=TSysUser.objects.get(user_id=user_id))
+            form = SysUserForm(request.POST, request.FILES, instance=TSysUser.objects.get(user_id=user_id))
         else:
             form = SysUserForm(request.POST)
-
         if form.is_valid():
             form.save()
-            return redirect('/list_sysuser/')
+            return redirect(reverse('main:list_sysuser'))
 
         errors = json.loads(form.errors.as_json())
 
@@ -164,7 +151,8 @@ def logout(request):
 
 
 def notice(request):
-    return HttpResponse('查看公告信息')
+    notices = TPublicNotice.objects.all()
+    return render(request, 'notice/list.html', locals())
 
 
 def feedback(request):

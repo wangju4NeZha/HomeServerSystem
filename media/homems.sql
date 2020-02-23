@@ -4,7 +4,7 @@ CREATE DATABASE homems CHARSET=utf8;
 use homems;
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/2/22 10:55:32                           */
+/* Created on:     2020/2/23 12:53:58                           */
 /*==============================================================*/
 
 
@@ -301,9 +301,8 @@ create table t_sys_role
 /*==============================================================*/
 create table t_sys_role_menu
 (
-   sys_menu_id          int not null auto_increment,
    role_id              int,
-   menu_id              int,
+   sys_menu_id          int not null auto_increment,
    primary key (sys_menu_id)
 );
 
@@ -313,8 +312,8 @@ create table t_sys_role_menu
 create table t_sys_user
 (
    user_id              int not null auto_increment,
-   role_id              int,
    username             varchar(20),
+   role_id              int,
    password             varchar(32),
    nick_name            varchar(20),
    head                 varchar(300),
@@ -428,15 +427,6 @@ alter table t_score add constraint FK_Reference_21 foreign key (user_id)
 
 alter table t_slidesshow add constraint FK_Reference_18 foreign key (house_id)
       references t_house (house_id) on delete restrict on update restrict;
-
-alter table t_sys_role_menu add constraint FK_Reference_30 foreign key (role_id)
-      references t_sys_role (role_id) on delete restrict on update restrict;
-
-alter table t_sys_role_menu add constraint FK_Reference_31 foreign key (menu_id)
-      references t_sys_menu (menu_id) on delete restrict on update restrict;
-
-alter table t_sys_user add constraint FK_Reference_28 foreign key (role_id)
-      references t_sys_role (role_id) on delete restrict on update restrict;
 
 alter table t_tradingrecord add constraint FK_Reference_10 foreign key (house_id)
       references t_house (house_id) on delete restrict on update restrict;

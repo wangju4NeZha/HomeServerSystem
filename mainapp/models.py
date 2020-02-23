@@ -223,8 +223,8 @@ class TSysMenu(models.Model):
 
 class TSysRole(models.Model):
     role_id = models.AutoField(primary_key=True)
-    role_name = models.CharField(max_length=20, blank=True, null=True)
-    role_code = models.CharField(max_length=10, blank=True, null=True)
+    role_name = models.CharField(max_length=20)
+    role_code = models.CharField(max_length=10)
 
     class Meta:
         managed = False
@@ -232,9 +232,8 @@ class TSysRole(models.Model):
 
 
 class TSysRoleMenu(models.Model):
+    role_id = models.IntegerField(blank=True, null=True)
     sys_menu_id = models.AutoField(primary_key=True)
-    role = models.ForeignKey(TSysRole, models.DO_NOTHING, blank=True, null=True)
-    menu = models.ForeignKey(TSysMenu, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -243,16 +242,16 @@ class TSysRoleMenu(models.Model):
 
 class TSysUser(models.Model):
     user_id = models.AutoField(primary_key=True)
-    role = models.ForeignKey(TSysRole, models.DO_NOTHING, blank=True, null=True)
     username = models.CharField(max_length=20, blank=True, null=True)
+    role_id = models.IntegerField(blank=True, null=True)
     password = models.CharField(max_length=32, blank=True, null=True)
     nick_name = models.CharField(max_length=20, blank=True, null=True)
-    head = models.CharField(max_length=300, blank=True, null=True)
+    head = models.ImageField(null=True, blank=True)
     email = models.CharField(max_length=30, blank=True, null=True)
-    #
-    # @property
-    # def role(self):
-    #     return TSysRole.objects.get(pk=self.role_id)
+
+    @property
+    def role(self):
+        return TSysRole.objects.get(role_id=self.role_id)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):

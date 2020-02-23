@@ -6,8 +6,6 @@
 <title>登录页面</title>
     {% include "base/css.html" %}
     {% include "base/js.html" %}
-    <script type="text/javascript" src="/s/js/custom/index.js"></script>
-
 </head>
 
 <body class="loginpage">
@@ -23,7 +21,7 @@
                 <div class="loginmsg" style="color:lightcoral;">{{ error }}</div>
             {% endif %}
             
-            <form id="login" method="post">
+            <form method="post">
             	{% csrf_token %}
                 <div class="username">
                 	<div class="usernameinner">
