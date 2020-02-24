@@ -13,6 +13,8 @@ urlpatterns = [
     path('edit_sysuser/', views.EditSysUserView.as_view(), name="edit_sysuser"),
 
     path('notice/', views.notice, name='notice'),
+    path('edit_notice/', views.EditPublicNotice.as_view(), name='edit_notice'),
+
     path('feedback/', views.feedback, name='fed'),
     path('comment/', views.comment, name='com'),
 ]

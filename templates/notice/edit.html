@@ -1,10 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base/base.html' %}
 
-</body>
-</html>
+{% block title %}
+    公告管理
+{% endblock %}
+
+{% block content %}
+        <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：公告管理</h1>
+            <span class="pagedesc">用于管理公告信息的编辑和发布</span>
+
+        </div><!--pageheader-->
+
+        <div id="basicform " style="margin: 10px" class="messagebox">
+            <div class="contenttitle2">
+                <h3>{% if public_notice_id %}编辑{% else %}新增{% endif %}公告信息</h3>
+            </div><!--contenttitle-->
+
+            {% if errors %}
+                <ul style="list-style: none;margin: 5px;padding: 5px;">
+
+                    {% for error in errors.values %}
+                        <li style="color:red"><span class="circle-dot-red"></span> {{ error.0.message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form class="stdform stdform2" method="post">
+
+                <p>
+                    <label>公告标题</label>
+                    <span class="field">
+                        {% csrf_token %}
+                        <input type="text" name="title" class="longinput {% if errors.title %}error{% endif %}"
+                               value="{% if notice %}{{ notice.title }}{% else %}{{ form.title.value }}{% endif %}"/>
+                         <input type="hidden" name="public_notic_id" value="{{ public_notice_id }}">
+                    </span>
+                </p>
+
+                <p>
+                    <label>公告链接</label>
+                    <span class="field">
+                        <input type="text" name="link_url" class="longinput"
+                               value="{% if notice %}{{ notice.link_url }}{% else %}{{ form.link_url.value }}{% endif %}"/>
+                    </span>
+                </p>
+                <div id="id_info-wrapper">
+                    <textarea name="content">{% if notice %}{{ notice.content|safe }}{% else %}
+                        {{ form.content.value }}{% endif %}</textarea>
+                </div>
+
+                <p class="stdformbutton">
+                    {% if notice.state == 0 or public_notice_id == '' %}
+                        <button class="submit radius2">发布公告</button>
+                    {% endif %}
+                </p>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+
+        tinyMCE.init({
+            mode: 'textareas',
+            width: '100%',
+            height: 400,
+            theme: 'advanced'
+        })
+    </script>
+{% endblock %}
+
+

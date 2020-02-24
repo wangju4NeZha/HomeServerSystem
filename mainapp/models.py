@@ -174,10 +174,25 @@ class TPanda(models.Model):
 class TPublicNotice(models.Model):
     public_notice_id = models.AutoField(primary_key=True)
     content = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    link_url = models.CharField(max_length=100, blank=True, null=True)
+    public_time = models.DateTimeField(auto_created=True, blank=True)
+    note = models.TextField(blank=True, null=True)
+
+    states = (
+        (0, '待审核'),
+        (1, '已通过'),
+        (2, '未通过')
+    )
+    state = models.IntegerField(choices=states, default=0)
 
     class Meta:
         managed = False
         db_table = 't_public_notice'
+
+    @property
+    def state_label(self):
+        return self.states[self.state][-1]
 
 
 class TScore(models.Model):

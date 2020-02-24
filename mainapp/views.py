@@ -42,7 +42,8 @@ def login(request):
                     'role_name': role_.role_name,
                     'role_code': role_.role_code,
                 }
-                print("+++++++++++++++", login_info['head'])
+            else:
+                error = f'{username} 用户名或口令错误！'
 
         if not error:
             request.session['login_user'] = login_info
@@ -56,7 +57,8 @@ def dashboard(request):
     :param request:
     :return:
     """
-    return render(request, 'dashboard.html')
+    notices = TPublicNotice.objects.filter(~Q(state=1))
+    return render(request, 'dashboard.html', locals())
 
 
 def role(request):
@@ -156,7 +158,27 @@ def logout(request):
 
 def notice(request):
     notices = TPublicNotice.objects.all()
+    action = request.GET.get('action', '')
+    if action:
+        TPublicNotice.objects.get(public_notice_id=request.GET.get('public_notice_id')).delete()
     return render(request, 'notice/list.html', locals())
+
+
+class EditPublicNotice(View):
+    def get(self, request):
+        public_notice_id = request.GET.get('public_notice_id', '')
+        if public_notice_id:
+            notice = TPublicNotice.objects.get(public_notice_id=public_notice_id)
+        return render(request, 'notice/edit.html', locals())
+
+
+
+
+
+
+
+
+
 
 
 def feedback(request):
@@ -165,3 +187,5 @@ def feedback(request):
 
 def comment(request):
     return HttpResponse('查看评论信息')
+
+

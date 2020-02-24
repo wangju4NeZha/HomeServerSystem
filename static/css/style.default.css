@@ -2504,3 +2504,10 @@ blockquote.bq2 {
 	border-radius: 50%;
 }
 
+.check{
+	font-size: 16px;
+}
+
+.check:focus{
+	color: #0f91f5;
+}
