@@ -5,7 +5,10 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from datetime import datetime
+
 from django.db import models
+from tinymce.models import HTMLField
 
 from common import md5_
 
@@ -173,9 +176,9 @@ class TPanda(models.Model):
 
 class TPublicNotice(models.Model):
     public_notice_id = models.AutoField(primary_key=True)
-    content = models.TextField(blank=True, null=True)
-    title = models.CharField(max_length=50, blank=True, null=True)
-    link_url = models.CharField(max_length=100, blank=True, null=True)
+    content = HTMLField(null=True)
+    title = models.CharField(max_length=50, null=True)
+    link_url = models.CharField(max_length=100, null=True)
     public_time = models.DateTimeField(auto_created=True, blank=True)
     note = models.TextField(blank=True, null=True)
 
@@ -186,13 +189,22 @@ class TPublicNotice(models.Model):
     )
     state = models.IntegerField(choices=states, default=0)
 
-    class Meta:
-        managed = False
-        db_table = 't_public_notice'
-
     @property
     def state_label(self):
         return self.states[self.state][-1]
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        if self.public_time is None:
+            self.public_time = datetime.now()
+
+        super(TPublicNotice, self).save()
+
+    class Meta:
+        managed = False
+        db_table = 't_public_notice'
+        ordering = ['-public_time']
 
 
 class TScore(models.Model):

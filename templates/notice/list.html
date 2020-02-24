@@ -15,14 +15,6 @@
         </div><!--pageheader-->
 
         <div style="margin: 10px">
-            <div class="contenttitle2">
-                <tr>
-                    <td><a href="" class="check">待审核   </a></td>
-                    <td><a href="#" class="check">已通过   </a></td>
-                    <td><a href="#" class="check">未通过   </a></td>
-                </tr>
-
-            </div><!--contenttitle-->
             <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
                 <thead>
                 <tr>
@@ -41,14 +33,14 @@
                     <tr class="gradeA">
                         <td>{{ notice.public_notice_id }}</td>
                         <td>{{ notice.title }}</td>
-                        <td>{{ notice.content }}</td>
+                        <td>{{ notice.content|safe }}</td>
                         <td>{{ notice.public_time }}</td>
                         <td>{{ notice.link_url }}</td>
                         <td ><span {% if notice.state == 2 %}onclick="jAlert('{{ notice.note }}', '提示')" style="cursor: pointer" {% endif %}>{{ notice.state_label }}</span></td>
 
                         <td class="'center">
                             <button class="stdbtn" onclick="eidt_({{ notice.public_notice_id }})">{% if notice.state == 0 %}编辑{% else %}查看{% endif %}</button>
-                            {% if notice.state == 0 %}
+                            {% if notice.state == 0 or notice.state == 2 %}
                                 <button class="stdbtn btn_yellow"
                                         onclick="delete_({{ notice.public_notice_id }}, '{{ notice.title }}')">删除
                                 </button>
@@ -70,7 +62,6 @@
     <script type="text/javascript" src="/s/js/custom/tables.js"></script>
     <script>
         function eidt_(id_) {
-            alert("bcjakajkbackakca")
             open(url='/edit_notice/?public_notice_id=' + id_, target='_self')
         }
 
@@ -83,6 +74,7 @@
                 }
             })
         }
+
     </script>
 
 {% endblock %}

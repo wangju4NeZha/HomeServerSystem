@@ -18,3 +18,5 @@ urlpatterns = [
     path('feedback/', views.feedback, name='fed'),
     path('comment/', views.comment, name='com'),
 ]
+
+

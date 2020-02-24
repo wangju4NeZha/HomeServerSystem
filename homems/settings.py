@@ -38,17 +38,17 @@ INSTALLED_APPS = [
     'userapp',
     'orderapp',
     'msgapp',
-    'mainapp'
+    'mainapp',
+    'tinymce'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'middleware.LoginMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.LoginMiddleware'
 ]
 
 ROOT_URLCONF = 'homems.urls'
@@ -115,4 +115,8 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/m/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 800,
+    'height': 600
+}

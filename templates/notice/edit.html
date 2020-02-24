@@ -26,6 +26,7 @@
                     {% endfor %}
                 </ul>
             {% endif %}
+            <button class="submit radius2" id="back_" style="background-color: lightblue; margin-left: 80%"  onclick="window.open('{% url "main:notice" %}', target='_self')">返回上一页</button>
 
             <form class="stdform stdform2" method="post">
 
@@ -34,8 +35,8 @@
                     <span class="field">
                         {% csrf_token %}
                         <input type="text" name="title" class="longinput {% if errors.title %}error{% endif %}"
-                               value="{% if notice %}{{ notice.title }}{% else %}{{ form.title.value }}{% endif %}"/>
-                         <input type="hidden" name="public_notic_id" value="{{ public_notice_id }}">
+                               value="{% if form %}{{ form.title.value }}{% else %}{{ notice.title }}{% endif %}"/>
+                         <input type="hidden" name="public_notice_id" value="{{ notice.public_notice_id }}">
                     </span>
                 </p>
 
@@ -43,20 +44,19 @@
                     <label>公告链接</label>
                     <span class="field">
                         <input type="text" name="link_url" class="longinput"
-                               value="{% if notice %}{{ notice.link_url }}{% else %}{{ form.link_url.value }}{% endif %}"/>
+                               value="{% if form %}{{ form.link_url.value }}{% else %}{{ notice.link_url }}{% endif %}"/>
                     </span>
                 </p>
                 <div id="id_info-wrapper">
-                    <textarea name="content">{% if notice %}{{ notice.content|safe }}{% else %}
-                        {{ form.content.value }}{% endif %}</textarea>
+                    <textarea name="content">{% if form %}{{ form.content.value|safe }}{% else %}
+                        {{ notice.content }}{% endif %}</textarea>
                 </div>
 
                 <p class="stdformbutton">
                     {% if notice.state == 0 or public_notice_id == '' %}
-                        <button class="submit radius2">发布公告</button>
+                        <button class="submit radius2" style="margin-left: 45%">发布公告</button>
                     {% endif %}
                 </p>
-
             </form>
 
         </div>
@@ -64,14 +64,17 @@
 {% endblock %}
 
 {% block js %}
-    <script>
+    <script type="text/javascript" src="/s/tiny_mce/tiny_mce.js"></script>
 
+    <script>
         tinyMCE.init({
             mode: 'textareas',
-            width: '100%',
-            height: 400,
-            theme: 'advanced'
-        })
+            width:  '100%',
+            height: 300,
+            theme: 'advanced',
+
+        });
+        {#alert('calam');#}
     </script>
 {% endblock %}
 

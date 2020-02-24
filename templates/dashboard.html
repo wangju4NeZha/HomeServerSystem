@@ -35,7 +35,7 @@
                             <tr class="gradeA">
                                 <td>{{ notice.public_notice_id }}</td>
                                 <td>{{ notice.title }}</td>
-                                <td>{{ notice.content }}</td>
+                                <td>{{ notice.content|safe }}</td>
                                 <td>{{ notice.public_time }}</td>
                                 <td>{{ notice.link_url }}</td>
                                 <td>{{ notice.state_label }}</td>

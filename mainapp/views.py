@@ -171,7 +171,21 @@ class EditPublicNotice(View):
             notice = TPublicNotice.objects.get(public_notice_id=public_notice_id)
         return render(request, 'notice/edit.html', locals())
 
+    def post(self, request):
+        from .forms import NoticeForm
+        public_notice_id = request.POST.get('public_notice_id', '')
+        if public_notice_id:
+            notice = TPublicNotice.objects.get(public_notice_id=public_notice_id)
+            form = NoticeForm(request.POST, instance=notice)
+        else:
+            form = NoticeForm(request.POST)
 
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('main:notice'))
+
+        errors = json.loads(form.errors.as_json())
+        return render(request, 'notice/edit.html', locals())
 
 
 
