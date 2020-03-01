@@ -22,14 +22,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'mainapp'
+=======
+    'userapp',
+    'orderapp',
+    'msgapp',
+    'mainapp',
+    'tinymce'
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'middleware.LoginMiddleware',
     'django.middleware.common.CommonMiddleware',
+<<<<<<< HEAD
     'django.middleware.csrf.CsrfViewMiddleware',
+=======
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -60,10 +72,15 @@ WSGI_APPLICATION = 'homems.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
+=======
+        # 'HOST': '114.116.245.220',
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
         'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': '123456',
+        # 'PASSWORD': '123456',
+        'PASSWORD': '211488',
         'CHARSET': 'utf8',
         'NAME': 'pandas'
     }
@@ -96,5 +113,13 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/m/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+<<<<<<< HEAD
 
 
+=======
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 800,
+    'height': 600
+}
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579

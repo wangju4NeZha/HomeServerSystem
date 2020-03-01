@@ -335,12 +335,20 @@ jQuery(document).ready(function(){
 		var c = jQuery(this).attr('class');
 		if(jQuery('#addonstyle').length == 0) {
 			if(c != 'default') {
+<<<<<<< HEAD
 				jQuery('head').append('<link id="addonstyle" rel="stylesheet" href="/s/css/style.'+c+'.css" type="text/css" />');
+=======
+				jQuery('head').append('<link id="addonstyle" rel="stylesheet" href="css/style.'+c+'.css" type="text/css" />');
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 				jQuery.cookie("addonstyle", c, { path: '/' });
 			}
 		} else {
 			if(c != 'default') {
+<<<<<<< HEAD
 				jQuery('#addonstyle').attr('href','/s/css/style.'+c+'.css');
+=======
+				jQuery('#addonstyle').attr('href','css/style.'+c+'.css');
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 				jQuery.cookie("addonstyle", c, { path: '/' });
 			} else {
 				jQuery('#addonstyle').remove();	
@@ -353,7 +361,11 @@ jQuery(document).ready(function(){
 	if(jQuery.cookie('addonstyle')) {
 		var c = jQuery.cookie('addonstyle');
 		if(c != '') {
+<<<<<<< HEAD
 			jQuery('head').append('<link id="addonstyle" rel="stylesheet" href="/s/css/style.'+c+'.css" type="text/css" />');
+=======
+			jQuery('head').append('<link id="addonstyle" rel="stylesheet" href="css/style.'+c+'.css" type="text/css" />');
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 			jQuery.cookie("addonstyle", c, { path: '/' });
 		}
 	}

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="mysql@114.116.245.220" uuid="cb0c186a-e904-4816-b4d9-a3849fb82866">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
@@ -34,6 +35,19 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/pandas</jdbc-url>
+=======
+    <data-source source="LOCAL" name="snail" uuid="0949f63c-f5ef-45f2-8444-7c34bb9405d8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://114.116.245.220:3306/homems</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="homems@localhost" uuid="2b0102e5-68b5-4189-a5b4-3bfa8c28e217">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/homems</jdbc-url>
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
     </data-source>
   </component>
 </project>

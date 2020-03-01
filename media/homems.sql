@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 drop DATABASE if EXISTS pandas;
 create DATABASE pandas CHARSET=utf8;
 use pandas;
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2020/2/21 20:43:49                           */
+=======
+drop DATABASE if EXISTS homems;
+
+CREATE DATABASE homems CHARSET=utf8;
+use homems;
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2020/2/23 12:53:58                           */
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 /*==============================================================*/
 
 
@@ -171,7 +181,12 @@ create table t_house_verify
    verify_id            int not null auto_increment,
    house_id             int,
    verify_status        int,
+<<<<<<< HEAD
    remarks              longtext,
+=======
+   verify_recode        longtext,
+   verify_result        int,
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
    primary key (verify_id)
 );
 
@@ -181,6 +196,10 @@ create table t_house_verify
 create table t_lucky_ticket
 (
    lucky_ticket_id      int not null auto_increment,
+<<<<<<< HEAD
+=======
+   u_lucky_ticketid     int,
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
    money                int,
    begin_time           date,
    end_time             date,
@@ -233,12 +252,16 @@ create table t_panda
 create table t_public_notice
 (
    public_notice_id     int not null auto_increment,
+<<<<<<< HEAD
    public_title         varchar(50),
    public_notice_time   datetime,
    public_remarks       longtext,
    public_status        int default 0,
    content              longtext,
 
+=======
+   content              longtext,
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
    primary key (public_notice_id)
 );
 
@@ -303,9 +326,14 @@ create table t_sys_role
 /*==============================================================*/
 create table t_sys_role_menu
 (
+<<<<<<< HEAD
    sys_menu_id          int not null auto_increment,
    role_id              int,
    menu_id              int,
+=======
+   role_id              int,
+   sys_menu_id          int not null auto_increment,
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
    primary key (sys_menu_id)
 );
 
@@ -315,10 +343,19 @@ create table t_sys_role_menu
 create table t_sys_user
 (
    user_id              int not null auto_increment,
+<<<<<<< HEAD
    role_id              int,
    username             varchar(20),
    password             varchar(32),
    nick_name            varchar(20),
+=======
+   username             varchar(20),
+   role_id              int,
+   password             varchar(32),
+   nick_name            varchar(20),
+   head                 varchar(300),
+   email                varchar(30),
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
    primary key (user_id)
 );
 
@@ -342,7 +379,10 @@ create table t_u_lucky_ticket
 (
    u_lucky_ticketid     int not null auto_increment,
    user_id              int,
+<<<<<<< HEAD
    lucky_ticket_id      int,
+=======
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
    primary key (u_lucky_ticketid)
 );
 
@@ -409,6 +449,12 @@ alter table t_house add constraint FK_Reference_20 foreign key (user_id)
 alter table t_house_verify add constraint FK_Reference_29 foreign key (house_id)
       references t_house (house_id) on delete restrict on update restrict;
 
+<<<<<<< HEAD
+=======
+alter table t_lucky_ticket add constraint FK_Reference_25 foreign key (u_lucky_ticketid)
+      references t_u_lucky_ticket (u_lucky_ticketid) on delete restrict on update restrict;
+
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 alter table t_message add constraint FK_Reference_22 foreign key (user_id)
       references t_user (user_id) on delete restrict on update restrict;
 
@@ -427,6 +473,7 @@ alter table t_score add constraint FK_Reference_21 foreign key (user_id)
 alter table t_slidesshow add constraint FK_Reference_18 foreign key (house_id)
       references t_house (house_id) on delete restrict on update restrict;
 
+<<<<<<< HEAD
 alter table t_sys_role_menu add constraint FK_Reference_30 foreign key (role_id)
       references t_sys_role (role_id) on delete restrict on update restrict;
 
@@ -436,6 +483,8 @@ alter table t_sys_role_menu add constraint FK_Reference_31 foreign key (menu_id)
 alter table t_sys_user add constraint FK_Reference_28 foreign key (role_id)
       references t_sys_role (role_id) on delete restrict on update restrict;
 
+=======
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 alter table t_tradingrecord add constraint FK_Reference_10 foreign key (house_id)
       references t_house (house_id) on delete restrict on update restrict;
 
@@ -445,6 +494,9 @@ alter table t_tradingrecord add constraint FK_Reference_7 foreign key (user_id)
 alter table t_u_lucky_ticket add constraint FK_Reference_26 foreign key (user_id)
       references t_user (user_id) on delete restrict on update restrict;
 
+<<<<<<< HEAD
 alter table t_u_lucky_ticket add constraint FK_Reference_32 foreign key (lucky_ticket_id)
       references t_lucky_ticket (lucky_ticket_id) on delete restrict on update restrict;
 
+=======
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579

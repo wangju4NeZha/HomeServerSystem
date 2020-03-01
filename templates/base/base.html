@@ -2,14 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{% block title %}锋云平台{% endblock %}</title>
 
+=======
+    {#    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+    {#    用于移动端    #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Admin{% endblock %}</title>
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
     {% include 'base/css.html' %}
     {% include 'base/js.html' %}
 
     {% block css %}
+<<<<<<< HEAD
     {% endblock %}
 
     <style>
@@ -35,6 +43,27 @@
 {% block js %}
 
 {% endblock %}
+=======
+
+    {% endblock %}
+</head>
+<body class="withvernav">
+    <div class="bodywrapper">
+        {% include 'base/top.html' %}
+        {% include 'base/menu.html' %}
+
+        {% block content %}
+
+        {% endblock %}
+
+        {% block footer %}
+
+        {% endblock %}
+    </div><!--bodywrapper-->
+    {% block js %}
+
+    {% endblock %}
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
 </body>
 </html>

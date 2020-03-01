@@ -5,9 +5,18 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+<<<<<<< HEAD
 import datetime
 
 from django.db import models
+=======
+from datetime import datetime
+
+from django.db import models
+from tinymce.models import HTMLField
+
+from common import md5_
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
 
 class Contract(models.Model):
@@ -110,6 +119,7 @@ class THouse(models.Model):
         db_table = 't_house'
 
 
+<<<<<<< HEAD
 class THouseVerify(models.Model):   # 房屋审核模型
     verify_id = models.AutoField(primary_key=True)
     house = models.ForeignKey(THouse, models.DO_NOTHING, blank=True, null=True)
@@ -132,6 +142,14 @@ class THouseVerify(models.Model):   # 房屋审核模型
         #     self.create_time = datetime.now()
 
         super(THouseVerify, self).save()
+=======
+class THouseVerify(models.Model):
+    verify_id = models.AutoField(primary_key=True)
+    house = models.ForeignKey(THouse, models.DO_NOTHING, blank=True, null=True)
+    verify_status = models.IntegerField(blank=True, null=True)
+    verify_recode = models.TextField(blank=True, null=True)
+    verify_result = models.IntegerField(blank=True, null=True)
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
     class Meta:
         managed = False
@@ -140,6 +158,10 @@ class THouseVerify(models.Model):   # 房屋审核模型
 
 class TLuckyTicket(models.Model):
     lucky_ticket_id = models.AutoField(primary_key=True)
+<<<<<<< HEAD
+=======
+    u_lucky_ticketid = models.ForeignKey('TULuckyTicket', models.DO_NOTHING, db_column='u_lucky_ticketid', blank=True, null=True)
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
     money = models.IntegerField(blank=True, null=True)
     begin_time = models.DateField(blank=True, null=True)
     end_time = models.DateField(blank=True, null=True)
@@ -186,6 +208,7 @@ class TPanda(models.Model):
         db_table = 't_panda'
 
 
+<<<<<<< HEAD
 class TPublicNotice(models.Model):   # 公告模型
     public_notice_id = models.AutoField(primary_key=True)
     public_title = models.CharField(max_length=50)
@@ -208,12 +231,45 @@ class TPublicNotice(models.Model):   # 公告模型
              update_fields=None):
         if self. public_notice_time is None:
             self. public_notice_time = datetime.now()
+=======
+class TPublicNotice(models.Model):
+    public_notice_id = models.AutoField(primary_key=True)
+    content = HTMLField(null=True)
+    title = models.CharField(max_length=50, null=True)
+    link_url = models.CharField(max_length=100, null=True)
+    public_time = models.DateTimeField(auto_created=True, blank=True)
+    note = models.TextField(blank=True, null=True)
+
+    states = (
+        (0, '待审核'),
+        (1, '已通过'),
+        (2, '未通过')
+    )
+    state = models.IntegerField(choices=states, default=0)
+
+    @property
+    def state_label(self):
+        return self.states[self.state][-1]
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        if self.public_time is None:
+            self.public_time = datetime.now()
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
         super(TPublicNotice, self).save()
 
     class Meta:
+<<<<<<< HEAD
         # managed = False
         db_table = 't_public_notice'
+=======
+        managed = False
+        db_table = 't_public_notice'
+        ordering = ['-public_time']
+
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
 class TScore(models.Model):
     score_id = models.AutoField(primary_key=True)
@@ -258,8 +314,13 @@ class TSysMenu(models.Model):
 
 class TSysRole(models.Model):
     role_id = models.AutoField(primary_key=True)
+<<<<<<< HEAD
     role_name = models.CharField(max_length=20, blank=True, null=True)
     role_code = models.CharField(max_length=10, blank=True, null=True)
+=======
+    role_name = models.CharField(max_length=20)
+    role_code = models.CharField(max_length=10)
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
     class Meta:
         managed = False
@@ -267,9 +328,14 @@ class TSysRole(models.Model):
 
 
 class TSysRoleMenu(models.Model):
+<<<<<<< HEAD
     sys_menu_id = models.AutoField(primary_key=True)
     role = models.ForeignKey(TSysRole, models.DO_NOTHING, blank=True, null=True)
     menu = models.ForeignKey(TSysMenu, models.DO_NOTHING, blank=True, null=True)
+=======
+    role_id = models.IntegerField(blank=True, null=True)
+    sys_menu_id = models.AutoField(primary_key=True)
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
     class Meta:
         managed = False
@@ -278,10 +344,32 @@ class TSysRoleMenu(models.Model):
 
 class TSysUser(models.Model):
     user_id = models.AutoField(primary_key=True)
+<<<<<<< HEAD
     role = models.ForeignKey(TSysRole, models.DO_NOTHING, blank=True, null=True)
     username = models.CharField(max_length=20, blank=True, null=True)
     password = models.CharField(max_length=32, blank=True, null=True)
     nick_name = models.CharField(max_length=20, blank=True, null=True)
+=======
+    username = models.CharField(max_length=20, blank=True, null=True)
+    role_id = models.IntegerField(blank=True, null=True)
+    password = models.CharField(max_length=32, blank=True, null=True)
+    nick_name = models.CharField(max_length=20, blank=True, null=True)
+    head = models.ImageField(null=True, blank=True)
+    # head = models.CharField(max_length=300, null=True, blank=True)
+    email = models.CharField(max_length=30, blank=True, null=True)
+
+    @property
+    def role(self):
+        return TSysRole.objects.get(role_id=self.role_id)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        if len(self.password) != 32:
+            self.password = md5_.hash_encode(self.password)
+
+        super(TSysUser, self).save()
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
     class Meta:
         managed = False
@@ -303,7 +391,10 @@ class TTradingrecord(models.Model):
 class TULuckyTicket(models.Model):
     u_lucky_ticketid = models.AutoField(primary_key=True)
     user = models.ForeignKey('TUser', models.DO_NOTHING, blank=True, null=True)
+<<<<<<< HEAD
     lucky_ticket = models.ForeignKey(TLuckyTicket, models.DO_NOTHING, blank=True, null=True)
+=======
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 
     class Meta:
         managed = False
