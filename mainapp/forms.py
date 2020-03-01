@@ -7,7 +7,7 @@
 """
 
 from django import forms
-from .models import TSysRole, TSysUser, TPublicNotice
+from .models import TSysRole, TSysUser, TPublicNotice, TLuckyTicket, TSlidesshow
 
 
 class RoleForm(forms.ModelForm):
@@ -49,15 +49,48 @@ class NoticeForm(forms.ModelForm):
 
     class Meta:
         model = TPublicNotice
-        fields = ['content', 'title', 'public_time', 'note', 'link_url', 'public_notice_id']
+        fields = ['content', 'public_title', 'public_time', 'public_remarks', 'public_notice_id']
         error_messages = {
-            'title': {
+            'public_title': {
                 'required': '标题不能为空'
             },
-            'link_url': {
-                'required': '外部连接不能为空'
-            },
+
             'content':{
                 'required': '内容不能为空'
+            }
+        }
+
+class SlideForm(forms.ModelForm):     # 轮播图
+
+    class Meta:
+        model = TSlidesshow
+        fields = ['house', 'ord']  # '__all__'
+        error_messages = {
+            'house': {
+                'required': '房屋ID不能为空'
+            },
+            'ord': {
+                'required': '顺序不能为空'
+            }
+        }
+
+
+class LuckyForm(forms.ModelForm):   # 代金券
+
+    class Meta:
+        model = TLuckyTicket
+        fields = ['money', 'begin_time', 'end_time', 'image']  # '__all__'
+        error_messages = {
+            'money': {
+                'required': '面值不能为空'
+            },
+            'begin_time': {
+                'required': '起始时间不能为空'
+            },
+            'end_time': {
+                'required': '结束时间不能为空'
+            },
+            'image': {
+                'required': '图片路径不能为空'
             }
         }

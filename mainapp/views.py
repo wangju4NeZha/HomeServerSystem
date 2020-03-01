@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views import View
 
 from common import md5_
-from .models import TSysRole, TSysUser, TPublicNotice
+from .models import TSysRole, TSysUser, TPublicNotice, TSlidesshow, TLuckyTicket, THouseVerify
 
 
 # Create your views here.
@@ -24,10 +24,12 @@ def login(request):
         remeber = request.POST.get('remeber', '')  # checkbox
 
         password_ = md5_.hash_encode(password)  # 转成md5后的密文
+        print(password_)
 
         # 验证用户名和口令是否为空
         if not all((username, password)):
             error = f'用户名或口令不能为空！'
+
         else:
             login_user = TSysUser.objects.filter(username=username, password=password_).first()
             if login_user:
@@ -42,6 +44,7 @@ def login(request):
                     'role_name': role_.role_name,
                     'role_code': role_.role_code,
                 }
+
             else:
                 error = f'{username} 用户名或口令错误！'
 
@@ -57,7 +60,7 @@ def dashboard(request):
     :param request:
     :return:
     """
-    notices = TPublicNotice.objects.filter(~Q(state=1))
+    notices = TPublicNotice.objects.filter(public_status=1)
     return render(request, 'dashboard.html', locals())
 
 
@@ -76,7 +79,7 @@ def role(request):
             obj.delete()
 
     roles = TSysRole.objects.all()
-    return render(request, 'role/list.html', locals())
+    return render(request, 'role/list.html', locals())   #
 
 
 def list_sys_user(request):
@@ -94,7 +97,7 @@ def list_sys_user(request):
     return render(request, 'sys_user/list.html', locals())
 
 
-class EditRoleView(View):
+class EditRoleView(View):    # 编辑角色信息
     """
     编辑角色信息和增加角色信息
     """
@@ -164,7 +167,7 @@ def notice(request):
     return render(request, 'notice/list.html', locals())
 
 
-class EditPublicNotice(View):
+class EditPublicNotice(View):   # 编辑公告
     def get(self, request):
         public_notice_id = request.GET.get('public_notice_id', '')
         if public_notice_id:
@@ -173,10 +176,12 @@ class EditPublicNotice(View):
 
     def post(self, request):
         from .forms import NoticeForm
+
         public_notice_id = request.POST.get('public_notice_id', '')
         if public_notice_id:
             notice = TPublicNotice.objects.get(public_notice_id=public_notice_id)
             form = NoticeForm(request.POST, instance=notice)
+
         else:
             form = NoticeForm(request.POST)
 
@@ -188,18 +193,145 @@ class EditPublicNotice(View):
         return render(request, 'notice/edit.html', locals())
 
 
+def list_slide_show(request):
+    action = request.GET.get('action', '')
+    if action == 'del':
+        TSlidesshow.objects.get(pk=request.GET.get('id_')).delete()
+    slides = TSlidesshow.objects.all()
+    return render(request, 'sys_user/list_sildeshow.html', locals())
 
 
+class EditSlideWhowView(View):
+    def get(self, request):
+        id_ = request.GET.get('id_', '')
+        if id_:
+            obj = TSlidesshow.objects.get(pk=id_)
+
+        return render(request, 'sys_user/edit_slide.html', locals())
+
+    def post(self, request):
+        from .forms import SlideForm
+        id_ = request.POST.get('id', '')
+        if id_:
+            form = SlideForm(request.POST, instance=TSlidesshow.objects.get(pk=id_))
+        else:
+            form = SlideForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/list_sildeshow/')
+
+        errors = json.loads(form.errors.as_json())
+
+        return render(request, 'sys_user/edit_slide.html', locals())
 
 
+def list_lucky(request):
+    action = request.GET.get('action', '')
+    if action == 'del':
+        TLuckyTicket.objects.get(pk=request.GET.get('id_')).delete()
+    tickets = TLuckyTicket.objects.all()
+    return render(request, 'sys_user/list_lucky.html', locals())
 
 
+class EditLuckyView(View):
+    def get(self, request):
+        id_ = request.GET.get('id_', '')
+        if id_:
+            obj = TLuckyTicket.objects.get(pk=id_)
 
-def feedback(request):
-    return HttpResponse('查看投诉信息')
+        return render(request, 'sys_user/edit_lucky.html', locals())
+
+    def post(self, request):
+        from .forms import LuckyForm
+        id_ = request.POST.get('id', '')
+        begin = request.POST.get('begin_time')
+        print(f'------->>>{begin}---{type(begin)}')
+        if id_:
+            form = LuckyForm(request.POST, instance=TLuckyTicket.objects.get(pk=id_))
+        else:
+            form = LuckyForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/lucky_ticket/')
+
+        errors = json.loads(form.errors.as_json())
+
+        return render(request, 'sys_user/edit_lucky.html', locals())
 
 
-def comment(request):
-    return HttpResponse('查看评论信息')
+class AuditMessage(View):
+    def get(self, request):
+        action = request.GET.get('action', '')
+        if action:
+            obj = THouseVerify.objects.get(pk=request.GET.get('id_'))
+
+            if action == 'yes':
+                obj.verify_status = 1
+            elif action == 'no':
+                obj.verify_status = 2
+                obj.remarks = request.GET.get('remarks', '')
+            obj.save()
+            obj.full_clean()
 
 
+        objs = THouseVerify.objects.filter(verify_status=0).all()
+        return render(request, 'message/list_audit.html', locals())
+
+
+class TPublic(View):
+    def get(self, request):
+        action = request.GET.get('action', '')
+        public_status = request.GET.get('public_status','')
+        if action:
+            obj = TPublicNotice.objects.get(pk=request.GET.get('id_'))
+            if action == 'yes':
+                obj.public_status = 1
+            elif action == 'no':
+                obj.public_status = 2
+                obj.remarks = request.GET.get(' public_remarks', '')
+            obj.save()
+            obj.full_clean()
+
+        if public_status:
+            objs = TPublicNotice.objects.filter(public_status=1).all()
+        else:
+            objs = TPublicNotice.objects.filter(public_status=0).all()
+        return render(request, 'message/list_public.html', locals())
+
+
+from mainapp.models import TComplaint
+def get_complain(request):
+    # get请求参数：action 有三个可选值（yes, del, query)
+    # yes和del 都有一个额外参数：id_(投诉的ID）
+    # query 有一个参数wd:可以按照订单号或者用户账号、手机号搜索都行
+    action = request.GET.get('action', '')
+    if action=='yes':
+        obj = TComplaint.objects.get(pk=request.GET.get('id_'))
+        obj.state = 1
+        obj.save()
+        obj.full_clean()
+    if action=='del':
+        TComplaint.objects.get(pk=request.GET.get('id_')).delete()
+    # 查看评论主页
+    complains = TComplaint.objects.all()
+    return render(request, 'complaint/list.html', locals())
+
+
+from mainapp.models import TComment
+def get_comment(request):
+
+    # get请求参数：action 有三个可选值（yes, del, query)
+    # yes和del 都有一个额外参数：id_(投诉的ID）
+    # query 有一个参数wd:可以按照订单号或者用户账号、手机号搜索都行
+    action = request.GET.get('action', '')
+    if action == 'yes':
+        obj = TComment.objects.get(pk=request.GET.get('id_'))
+        obj.state = 1
+        obj.save()
+        obj.full_clean()
+    if action == 'del':
+        TComment.objects.get(pk=request.GET.get('id_')).delete()
+    comments = TComment.objects.all()
+    return render(request, 'comment/list.html', locals())

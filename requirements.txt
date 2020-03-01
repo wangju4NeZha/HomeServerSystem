@@ -1,6 +1,7 @@
 Django==2.0.1
 django-jet==1.0.8
 django-tinymce==2.8.0
+gunicorn==20.0.4
 Pillow==7.0.0
 PyMySQL==0.9.3
 pytz==2019.3

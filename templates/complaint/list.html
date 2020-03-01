@@ -1,0 +1,94 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    投诉处理
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：投诉管理</h1>
+            <span class="pagedesc">管理投诉信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>投诉信息</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">订单ID</th>
+                    <th class="head0">订单号</th>
+                    <th class="head1">用户</th>
+                    <th class="head1" style="width: 400px">投诉详情</th>
+                    <th class="head1">审核状态</th>
+                    <th class="head0" style="width: 200px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for obj in complains %}
+                    <tr class="gradeA">
+                        <td>{{ obj.order_id }}</td>
+                        <td>{{ obj.order.order_number }}</td>
+                        <td>{{ obj.user.nickname }}</td>
+                        <td>{{ obj.content }}</td>
+                        <td>{{ obj.state_label }}</td>
+
+                        <td class="center">
+                            {% if obj.state == 0 %}
+                                <button class="stdbtn btn_lime"
+                                        onclick="yes_({{ obj.fadeback_id }}, '{{ obj.order.order_number }}')">点击通过
+                                </button>
+                            {% endif %}
+                            {% if obj.state == 0 %}
+                                <button class="stdbtn btn_yellow"
+                                        onclick="delete_({{ obj.fadeback_id }}, {{ obj.order.order_number }})">删除
+                                </button>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function yes_(id_, order_number) {
+            jConfirm('是否确认通过' + order_number + "?", '审核确认', function (event) {
+                if (event) {
+                    url = '/complain/?action=yes&id_=' + id_
+                    console.log(url)
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function delete_(id_, order_number) {
+            jConfirm('是否确认删除' + order_number + "?", '删除确认', function (event) {
+                if (event) {
+                    url = '/complain/?action=del&id_=' + id_
+                    console.log(url)
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function edit_(id_) {
+            open('/comment/comment/?comment_id=' + id_, target = '_self')
+
+        }
+
+    </script>
+{% endblock %}

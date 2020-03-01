@@ -13,7 +13,7 @@ from tinymce.models import HTMLField
 from common import md5_
 
 
-class Contract(models.Model):
+class Contract(models.Model):  # 合同模型
     t_contract_id = models.AutoField(primary_key=True)
     user = models.ForeignKey('TUser', models.DO_NOTHING, blank=True, null=True)
     start_time = models.DateField(blank=True, null=True)
@@ -35,7 +35,7 @@ class TBrowsingHistory(models.Model):
         db_table = 't_browsing_history'
 
 
-class TChatmsg(models.Model):
+class TChatmsg(models.Model):  # 留言
     chatmsg_id = models.AutoField(primary_key=True)
     msg = models.ForeignKey('TMessage', models.DO_NOTHING, blank=True, null=True)
     chatmsg_time = models.DateTimeField(blank=True, null=True)
@@ -46,18 +46,34 @@ class TChatmsg(models.Model):
         db_table = 't_chatmsg'
 
 
-class TComment(models.Model):
+class TComment(models.Model):  #
     comment_id = models.AutoField(primary_key=True)
     user = models.ForeignKey('TUser', models.DO_NOTHING, blank=True, null=True)
     house = models.ForeignKey('THouse', models.DO_NOTHING, blank=True, null=True)
-    comment_time = models.DateTimeField(blank=True, null=True)
+    create_time = models.DateTimeField(blank=True, null=True)
     content = models.TextField(blank=True, null=True)
-    grade = models.IntegerField(blank=True, null=True)
+
+    states = (
+        (0, '审核中'),
+        (1, '已通过'),
+        (2, '未通过'),
+    )
+    state = models.IntegerField(blank=True, default=0)
+
+    @property
+    def state_label(self):
+        return self.states[self.state][-1]
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.create_time is None:
+            self.create_time = datetime.now()
+
+        super(TComment, self).save()
 
     class Meta:
         managed = False
         db_table = 't_comment'
-
 
 class TComplaint(models.Model):
     fadeback_id = models.AutoField(primary_key=True)
@@ -66,6 +82,17 @@ class TComplaint(models.Model):
     phone = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=30, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
+
+    states = (
+        (0, '审核中'),
+        (1, '已通过'),
+        (2, '未通过'),
+    )
+    state = models.IntegerField(blank=True, default=0)
+
+    @property
+    def state_label(self):
+        return self.states[self.state][-1]
 
     class Meta:
         managed = False
@@ -95,10 +122,12 @@ class TFeedback(models.Model):
         db_table = 't_feedback'
 
 
+
 class THouse(models.Model):
     house_id = models.AutoField(primary_key=True)
     user = models.ForeignKey('TUser', models.DO_NOTHING, blank=True, null=True)
     image = models.CharField(max_length=200, blank=True, null=True)
+    # image = models.ImageField()
     name = models.CharField(max_length=200, blank=True, null=True)
     type = models.TextField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
@@ -113,12 +142,29 @@ class THouse(models.Model):
         db_table = 't_house'
 
 
-class THouseVerify(models.Model):
+
+class THouseVerify(models.Model):   # 房屋审核模型
     verify_id = models.AutoField(primary_key=True)
     house = models.ForeignKey(THouse, models.DO_NOTHING, blank=True, null=True)
-    verify_status = models.IntegerField(blank=True, null=True)
-    verify_recode = models.TextField(blank=True, null=True)
-    verify_result = models.IntegerField(blank=True, null=True)
+    # verify_status = models.IntegerField(blank=True, null=True)
+    remarks = models.TextField(blank=True, null=True)
+    states = (
+        (0, '审核中'),
+        (1, '已通过'),
+        (2, '未通过')
+    )
+    verify_status = models.IntegerField(choices=states, default=0)
+
+    @property
+    def state_label(self):
+        return self.states[self.verify_status][-1]
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        #         if self.create_time is None:
+        # self.create_time = datetime.now()
+
+        super(THouseVerify, self).save()
 
     class Meta:
         managed = False
@@ -127,7 +173,6 @@ class THouseVerify(models.Model):
 
 class TLuckyTicket(models.Model):
     lucky_ticket_id = models.AutoField(primary_key=True)
-    u_lucky_ticketid = models.ForeignKey('TULuckyTicket', models.DO_NOTHING, db_column='u_lucky_ticketid', blank=True, null=True)
     money = models.IntegerField(blank=True, null=True)
     begin_time = models.DateField(blank=True, null=True)
     end_time = models.DateField(blank=True, null=True)
@@ -136,7 +181,6 @@ class TLuckyTicket(models.Model):
     class Meta:
         managed = False
         db_table = 't_lucky_ticket'
-
 
 class TMessage(models.Model):
     msg_id = models.AutoField(primary_key=True)
@@ -177,21 +221,20 @@ class TPanda(models.Model):
 class TPublicNotice(models.Model):
     public_notice_id = models.AutoField(primary_key=True)
     content = HTMLField(null=True)
-    title = models.CharField(max_length=50, null=True)
-    link_url = models.CharField(max_length=100, null=True)
+    public_title = models.CharField(max_length=50, null=True)
     public_time = models.DateTimeField(auto_created=True, blank=True)
-    note = models.TextField(blank=True, null=True)
+    public_remarks = models.TextField(null=True, blank=True)
 
     states = (
         (0, '待审核'),
         (1, '已通过'),
         (2, '未通过')
     )
-    state = models.IntegerField(choices=states, default=0)
+    public_status = models.IntegerField(choices=states, default=0)
 
     @property
     def state_label(self):
-        return self.states[self.state][-1]
+        return self.states[self.public_status][-1]
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -202,7 +245,7 @@ class TPublicNotice(models.Model):
         super(TPublicNotice, self).save()
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 't_public_notice'
         ordering = ['-public_time']
 
@@ -309,6 +352,7 @@ class TTradingrecord(models.Model):
 class TULuckyTicket(models.Model):
     u_lucky_ticketid = models.AutoField(primary_key=True)
     user = models.ForeignKey('TUser', models.DO_NOTHING, blank=True, null=True)
+    lucky_ticket = models.ForeignKey(TLuckyTicket, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False

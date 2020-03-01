@@ -1,10 +1,6 @@
-drop DATABASE if EXISTS homems;
-
-CREATE DATABASE homems CHARSET=utf8;
-use homems;
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/2/23 12:53:58                           */
+/* Created on:     2020/3/1 17:55:49                            */
 /*==============================================================*/
 
 
@@ -100,9 +96,9 @@ create table t_comment
    comment_id           int not null auto_increment,
    user_id              int,
    house_id             int,
-   comment_time         datetime,
+   create_time          datetime,
    content              text,
-   grade                int,
+   state                int,
    primary key (comment_id)
 );
 
@@ -117,6 +113,7 @@ create table t_complaint
    phone                int(11),
    email                varchar(30),
    content              text,
+   state                int,
    primary key (fadeback_id)
 );
 
@@ -161,6 +158,7 @@ create table t_house
    area                 float,
    description          text,
    sale_status          int,
+   is_public            int,
    primary key (house_id)
 );
 
@@ -172,8 +170,7 @@ create table t_house_verify
    verify_id            int not null auto_increment,
    house_id             int,
    verify_status        int,
-   verify_recode        longtext,
-   verify_result        int,
+   remarks              text,
    primary key (verify_id)
 );
 
@@ -183,11 +180,10 @@ create table t_house_verify
 create table t_lucky_ticket
 (
    lucky_ticket_id      int not null auto_increment,
-   u_lucky_ticketid     int,
    money                int,
    begin_time           date,
    end_time             date,
-   image                varchar(20),
+   image                varchar(200),
    primary key (lucky_ticket_id)
 );
 
@@ -237,6 +233,10 @@ create table t_public_notice
 (
    public_notice_id     int not null auto_increment,
    content              longtext,
+   public_title         varchar(50),
+   public_time          datetime,
+   public_remarks       text,
+   public_status        int,
    primary key (public_notice_id)
 );
 
@@ -341,6 +341,7 @@ create table t_u_lucky_ticket
 (
    u_lucky_ticketid     int not null auto_increment,
    user_id              int,
+   lucky_ticket_id      int,
    primary key (u_lucky_ticketid)
 );
 
@@ -407,9 +408,6 @@ alter table t_house add constraint FK_Reference_20 foreign key (user_id)
 alter table t_house_verify add constraint FK_Reference_29 foreign key (house_id)
       references t_house (house_id) on delete restrict on update restrict;
 
-alter table t_lucky_ticket add constraint FK_Reference_25 foreign key (u_lucky_ticketid)
-      references t_u_lucky_ticket (u_lucky_ticketid) on delete restrict on update restrict;
-
 alter table t_message add constraint FK_Reference_22 foreign key (user_id)
       references t_user (user_id) on delete restrict on update restrict;
 
@@ -433,6 +431,9 @@ alter table t_tradingrecord add constraint FK_Reference_10 foreign key (house_id
 
 alter table t_tradingrecord add constraint FK_Reference_7 foreign key (user_id)
       references t_user (user_id) on delete restrict on update restrict;
+
+alter table t_u_lucky_ticket add constraint FK_Reference_25 foreign key (lucky_ticket_id)
+      references t_lucky_ticket (lucky_ticket_id) on delete restrict on update restrict;
 
 alter table t_u_lucky_ticket add constraint FK_Reference_26 foreign key (user_id)
       references t_user (user_id) on delete restrict on update restrict;

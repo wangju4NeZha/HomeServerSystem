@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    审核公告信息
+{% endblock %}
+
+{% block css %}
+  <style>
+    #msg_info{
+        font-size: 1.2em;
+    }
+       #msg_info ul{
+           list-style: none;
+           border: 1px solid lightgray;
+           padding: 5px;
+           border-radius: 5px;
+       }
+
+       #msg_info .area{
+           padding: 10px;
+           margin: 5px;
+           height: 320px;
+           background-color: white;
+       }
+
+       #msg_info .area:hover{
+           background-color: lightgray;
+           border-radius: 5px;
+       }
+
+      #msg_info ul::after{
+          content: "";
+          display: block;
+          overflow: auto;
+          clear: both;
+          height: 0;
+          visibility: hidden;
+      }
+    .bottom {
+        position: absolute;
+        bottom: 20px;
+    }
+    .box{
+        border: 1px solid lightblue;
+        width: 100%;
+        height: 240px;
+        overflow: scroll;
+        padding: 5px;
+    }
+
+  dt,dd{
+      padding: 5px;
+      font-size: 15px;
+  }
+  </style>
+{% endblock %}
+
+{% block content %}7
+    \
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            {% if public_status != '1' %}
+                <h1 class="pagetitle">当前位置：公告审核</h1>
+                <span class="pagedesc">公告审核信息</span>
+            {% else %}
+                <h1 class="pagetitle">当前位置：公告查看</h1>
+                <span class="pagedesc">查看公告信息</span>
+            {% endif %}
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px" id="msg_info">
+
+            <div class="contenttitle2">
+               {% if public_status != "1" %}
+                    <h3>待审核-{{ objs|length }}条记录</h3>
+               {% else %}
+                    <h3>有-{{ objs|length }}条公告</h3>
+               {% endif %}
+            </div><!--contenttitle-->
+            <ul >
+                 {% for obj in objs %}
+                     <li class="area">
+                        <dl >
+                            <dt style="font-size: larger"><b>公告标题：{{ obj.public_title }}</b><br/>
+                               <i>于 {{ obj.public_time}} 发布</i>
+                            </dt>
+                        </dl>
+
+                         <dl class="box">
+                            <dt style="color: green;font-size: large" ><b>公告详情：</b>
+                            </dt>
+
+                            <dd>ID：{{ obj.public_notice_id }}
+                             </dd>
+
+                             <dd><p>内容：{{ obj.content}}</p>
+                             </dd>
+
+                         </dl>
+
+                         {% if public_status != '1' %}
+                             <dl>
+                                    <button class="stdbtn btn_blue" onclick="window.open('/list_publicnotice/?action=yes&id_={{ obj.public_notice_id}}',target='_self')">通过</button>
+                                    <button class="stdbtn btn_red" onclick="no_({{ obj.public_notice_id}}, '{{ obj.public_title }}')">不通过</button>
+                             </dl>
+                        {% endif %}
+
+                     </li>
+                 {% endfor %}
+
+            </ul>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function no_(id_, name_) {
+            jPrompt( name_ + "未通过审核",'', '审核理由', function (msg) {
+               if(msg!=null){
+                   window.open('/list_publicnotice/?action=no&id_='+id_+'&public_remarks='+msg, target='_self')
+               }
+            })
+        }
+
+    </script>
+{% endblock %}

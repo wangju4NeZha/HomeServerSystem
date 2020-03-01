@@ -1,0 +1,151 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    审核公告信息
+{% endblock %}
+
+{% block css %}
+  <style>
+    #msg_info{
+        font-size: 1.2em;
+    }
+       #msg_info ul{
+           list-style: none;
+           border: 1px solid lightgray;
+           padding: 5px;
+           border-radius: 5px;
+       }
+
+       #msg_info .area{
+           padding: 10px;
+           margin: 5px;
+           height: 320px;
+           background-color: white;
+       }
+
+       #msg_info .area:hover{
+           background-color: lightcyan;
+           border-radius: 5px;
+       }
+
+      #msg_info ul::after{
+          content: "";
+          display: block;
+          overflow: auto;
+          clear: both;
+          height: 0;
+          visibility: hidden;
+      }
+    .bottom {
+        position: absolute;
+        bottom: 20px;
+    }
+    .box{
+        border: 1px solid lightblue;
+        width: 100%;
+        height: 240px;
+        overflow: scroll;
+        padding: 5px;
+    }
+
+  dt,dd{
+      padding: 5px;
+      font-size: 15px;
+  }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：房屋审核</h1>
+            <span class="pagedesc">房屋审核信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px" id="msg_info">
+
+            <div class="contenttitle2">
+                <h3>待审核-{{ objs|length }}条记录</h3>
+            </div><!--contenttitle-->
+            <ul >
+                 {% for obj in objs %}
+                     <li class="area">
+                        <dl >
+                            <dt style="color: green"><b>房屋名称：{{ obj.house.name }}</b><br/>
+                               <i>于 {{ obj.house.publish_time }} 发布</i>
+                            </dt>
+                        </dl>
+
+                         <dl class="box">
+                            <dt style="color: green;font-size: large" ><b>用户信息：</b>
+                            </dt>
+
+                            <dd>姓名：{{ obj.house.user.name }}
+                             </dd>
+
+                             <dd>性别：{{ obj.house.user.sex}}
+                             </dd>
+
+                             <dt>身份证号：{{ obj.house.user.identity_number }}
+                             </dt>
+
+                             <dt>电话：{{ obj.house.user.phone}}
+                             </dt>
+
+                             <dt>邮箱：{{ obj.house.user.email }}
+                             </dt>
+
+
+
+                             <dt>本人照片：<br/><img style="width: 200px;height:300px;margin-left: 20%"  src="/m/{{obj.house.user.img }}" alt="">
+                             </dt>
+
+                             <dt style="color: green;font-size: large" ><b>房屋信息：</b>
+                            </dt>
+
+                            <dd>房屋ID：{{ obj.house.house_id }}
+                             </dd>
+
+                             <dd>房屋名称：{{ obj.house.name}}
+                             </dd>
+
+                             <dt>价格：{{ obj.house.price }}
+                             </dt>
+
+                             <dt>面积：{{ obj.house.area}}
+                             </dt>
+
+                             <dt>房屋照片：<br/><img style="width: 200px;height:300px;margin-left: 20%"  src="/m/{{ obj.house.image}}" alt="">
+                             </dt>
+
+                         </dl>
+                         <dl>
+                                <button class="stdbtn btn_blue" onclick="window.open('/list_houseverify/?action=yes&id_={{ obj.verify_id }}',target='_self')">通过</button>
+                                <button class="stdbtn btn_red" onclick="no_({{ obj.verify_id }}, '{{ obj.house.name }}')">不通过</button>
+                         </dl>
+
+                     </li>
+                 {% endfor %}
+
+            </ul>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function no_(id_, name_) {
+            jPrompt( name_ + "未通过审核",'', '审核理由', function (msg) {
+               if(msg!=null){
+                   window.open('/list_houseverify/?action=no&id_='+id_+'&remarks='+msg, target='_self')
+               }
+            })
+        }
+
+    </script>
+{% endblock %}

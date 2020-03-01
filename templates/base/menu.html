@@ -11,6 +11,31 @@
             </li>
             <li><a href="{% url 'main:notice' %}" class="editor">公告管理</a></li>
         {% endif %}
+         {% if request.session.login_user.role_code == 'activity' %}
+             <li><a href="#role_menu" class="support">活动管理</a>
+                <span class="arrow"></span>
+                <ul id="role_menu">
+                    <li><a href="/list_sildeshow/">轮播图管理</a></li>
+                    <li><a href="/lucky_ticket/">代金券管理</a></li>
+
+                </ul>
+             <li><a href="/public_show/?public_status=1" class="elements">公告查看</a></li>
+             </li>
+        {% endif %}
+
+         {% if request.session.login_user.role_code == 'verify' %}
+             <li><a href="#role_menu" class="support">审核管理</a>
+                <span class="arrow"></span>
+                <ul id="role_menu">
+                    <li><a href="/list_houseverify/">房屋审核</a></li>
+                    <li><a href="/list_publicnotice/">公告审核</a></li>
+                </ul>
+             <li><a href="/public_show/?public_status=1" class="elements">公告查看</a></li>
+             </li>
+
+        {% endif %}
+
+
     </ul>
     <a class="togglemenu"></a>
     <br/><br/>

@@ -34,26 +34,20 @@
                     <label>公告标题</label>
                     <span class="field">
                         {% csrf_token %}
-                        <input type="text" name="title" class="longinput {% if errors.title %}error{% endif %}"
-                               value="{% if form %}{{ form.title.value }}{% else %}{{ notice.title }}{% endif %}"/>
+                        <input type="text" name="public_title" class="longinput {% if errors.title %}error{% endif %}"
+                               value="{% if form %}{{ form.public_title.value }}{% else %}{{ notice.public_title }}{% endif %}"/>
                          <input type="hidden" name="public_notice_id" value="{{ notice.public_notice_id }}">
                     </span>
                 </p>
 
-                <p>
-                    <label>公告链接</label>
-                    <span class="field">
-                        <input type="text" name="link_url" class="longinput"
-                               value="{% if form %}{{ form.link_url.value }}{% else %}{{ notice.link_url }}{% endif %}"/>
-                    </span>
-                </p>
+
                 <div id="id_info-wrapper">
                     <textarea name="content">{% if form %}{{ form.content.value|safe }}{% else %}
                         {{ notice.content }}{% endif %}</textarea>
                 </div>
 
                 <p class="stdformbutton">
-                    {% if notice.state == 0 or public_notice_id == '' %}
+                    {% if notice.public_status == 0 or public_notice_id == '' %}
                         <button class="submit radius2" style="margin-left: 45%">发布公告</button>
                     {% endif %}
                 </p>
