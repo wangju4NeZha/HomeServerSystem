@@ -4,10 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>登录页面</title>
+<<<<<<< HEAD
     {% include 'base/js.html' %}
     {% include 'base/css.html' %}
 
     <script type="text/javascript" src="/s/js/custom/index.js"></script>
+=======
+    {% include "base/css.html" %}
+    {% include "base/js.html" %}
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 </head>
 
 <body class="loginpage">
@@ -15,6 +20,7 @@
     	<div class="loginboxinner">
         	
             <div class="logo">
+<<<<<<< HEAD
             	<h1 class="logo">FMS<span>Admin</span></h1>
 				<span class="slogan">FMS后台管理系统</span>
             </div><!--logo-->
@@ -23,6 +29,17 @@
                 <div class="loginmsg" style="color:lightcoral;">{{ error }}</div>
             {% endif %}
             <form id="login" method="post">
+=======
+            	<h1 class="logo">熊猫<span>之家</span></h1>
+				<span class="slogan">后台管理系统</span>
+            </div><!--logo-->
+            
+            {% if error  %}
+                <div class="loginmsg" style="color:lightcoral;">{{ error }}</div>
+            {% endif %}
+            
+            <form method="post">
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
             	{% csrf_token %}
                 <div class="username">
                 	<div class="usernameinner">

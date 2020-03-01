@@ -11,4 +11,9 @@ def hash_encode(txt, secret_sign=SECRET_KEY):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     print(hash_encode('disen666'))
+=======
+    print(hash_encode("123456"))
+
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579

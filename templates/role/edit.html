@@ -4,10 +4,13 @@
     系统角色管理
 {% endblock %}
 
+<<<<<<< HEAD
 {% block css %}
     <script type="text/javascript" src="/s/js/custom/forms.js"></script>
 {% endblock %}
 
+=======
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
 {% block content %}
 
     <div class="centercontent tables">
@@ -38,14 +41,23 @@
                     <label>角色名称</label>
                     <span class="field">
                         {% csrf_token %}
+<<<<<<< HEAD
                         <input type="text" name="name" class="longinput" value="{% if role %}{{ role.name }}{% else %}{{ form.name.value }}{% endif %}"/>
                          <input type="hidden" name="id" value="{{ role_id }}">
+=======
+                        <input type="text" name="role_name" class="longinput" value="{% if role %}{{ role.role_name }}{% else %}{{ form.role_name.value }}{% endif %}"/>
+                         <input type="hidden" name="role_id" value="{{ role_id }}">
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
                     </span>
                 </p>
                 <p>
                     <label>角色代码</label>
                     <span class="field">
+<<<<<<< HEAD
                         <input type="text" name="code" class="longinput" value="{% if role %}{{ role.code }}{% else %}{{ form.code.value }}{% endif %}"/>
+=======
+                        <input type="text" name="role_code" class="longinput" value="{% if role %}{{ role.role_code }}{% else %}{{ form.role_code.value }}{% endif %}"/>
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
                     </span>
                 </p>
                 <p class="stdformbutton">
@@ -61,6 +73,10 @@
 {% endblock %}
 
 {% block js %}
+<<<<<<< HEAD
+=======
+    <script type="text/javascript" src="/s/js/custom/forms.js"></script>
+>>>>>>> 878b70e9a2d0381ca4f8ea0dfc7c016c12bdd579
     <script>
         function delete_(role_id, role_name) {
             jConfirm('是否确认删除' + role_name + "?", '删除确认', function (event) {
