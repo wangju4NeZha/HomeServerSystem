@@ -57,7 +57,7 @@ def dashboard(request):
     :param request:
     :return:
     """
-    notices = TPublicNotice.objects.filter(~Q(state=1))
+    notices = TPublicNotice.objects.filter(state=1)
     return render(request, 'dashboard.html', locals())
 
 
